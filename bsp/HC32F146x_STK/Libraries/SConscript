@@ -1,0 +1,89 @@
+import rtconfig
+Import('RTT_ROOT')
+from building import *
+
+# get current directory
+cwd = GetCurrentDir()
+
+# The set of source files associated with this SConscript file.
+#HC32F146x_Driver/src/adc.c
+#HC32F146x_Driver/src/cc.c
+#HC32F146x_Driver/src/ct.c
+#HC32F146x_Driver/src/dmac.c
+#HC32F146x_Driver/src/dt.c
+#HC32F146x_Driver/src/exint.c
+#HC32F146x_Driver/src/flash.c
+#HC32F146x_Driver/src/hwwdt.c
+#HC32F146x_Driver/src/i2c.c
+#HC32F146x_Driver/src/lpm.c
+#HC32F146x_Driver/src/lvd.c
+#HC32F146x_Driver/src/opa.c
+#HC32F146x_Driver/src/osc.c
+#HC32F146x_Driver/src/pcg.c
+#HC32F146x_Driver/src/spi.c
+#HC32F146x_Driver/src/swwdt.c
+#HC32F146x_Driver/src/timer4_adct.c
+#HC32F146x_Driver/src/timer4_cnt.c
+#HC32F146x_Driver/src/timer4_emi.c
+#HC32F146x_Driver/src/timer4_oco.c
+#HC32F146x_Driver/src/timer4_pwm.c
+#HC32F146x_Driver/src/uid.c
+#HC32F146x_Driver/src/vc.c
+
+src = Split("""
+CMSIS/HC32FM14/Source/system_hc32f_m14x.c
+HC32F146x_Driver/src/clk.c
+HC32F146x_Driver/src/ddl.c
+HC32F146x_Driver/src/gpio.c
+HC32F146x_Driver/src/interrupts_hc32f_m14x.c
+HC32F146x_Driver/src/lcd.c
+HC32F146x_Driver/src/uart.c
+
+""")
+
+CCFLAGS = ''
+
+#device options
+if GetDepend(['HC32F146F8']):
+    HC32_TYPE = 'HC32F146FX'
+if GetDepend(['HC32F146J8']):
+    HC32_TYPE = 'HC32F146JX'
+if GetDepend(['HC32F146KA']):
+    HC32_TYPE = 'HC32F146KX'
+if GetDepend(['HC32M140F8']):
+    HC32_TYPE = 'HC32M140FX'
+if GetDepend(['HC32M140J8']):
+    HC32_TYPE = 'HC32M140JX'
+if GetDepend(['HC32M140KA']):
+    HC32_TYPE = 'HC32M140KX'
+
+
+# starupt scripts for each HC32 kind
+startup_scripts = {}
+startup_scripts['HC32F146FX']     = 'startup_hc32f_m14x.s'
+startup_scripts['HC32F146JX']     = 'startup_hc32f_m14x.s'
+startup_scripts['HC32F146KX']     = 'startup_hc32f_m14x.s'
+startup_scripts['HC32M140FX']     = 'startup_hc32f_m14x.s'
+startup_scripts['HC32M140JX']     = 'startup_hc32f_m14x.s'
+startup_scripts['HC32M140KX']     = 'startup_hc32f_m14x.s'
+
+# add for startup script 
+if rtconfig.CROSS_TOOL == 'gcc':
+    src = src + ['CMSIS/HC32FM14/Source/' + startup_scripts[HC32_TYPE]]
+elif rtconfig.CROSS_TOOL == 'keil':
+    src = src + ['CMSIS/HC32FM14/Source/' + startup_scripts[HC32_TYPE]]
+    CCFLAGS += ' --diag_suppress=186'
+elif rtconfig.CROSS_TOOL == 'iar':
+    src = src + ['CMSIS/HC32FM14/Source/' + startup_scripts[HC32_TYPE]]
+
+
+path = [cwd + '/CMSIS/HC32FM14/Include', 
+	cwd + '/HC32F146x_Driver/Inc']
+
+if GetDepend(['RT_USING_RTT_CMSIS']):
+    path += [RTT_ROOT + '/components/CMSIS/Include']
+
+CPPDEFINES = [HC32_TYPE]
+group = DefineGroup('Libraries', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES, CCFLAGS = CCFLAGS)
+
+Return('group')

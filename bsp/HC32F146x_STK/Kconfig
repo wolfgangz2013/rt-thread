@@ -1,0 +1,55 @@
+mainmenu "RT-Thread Configuration"
+
+config $BSP_DIR
+    string
+    option env="BSP_ROOT"
+    default "."
+
+config $RTT_DIR
+    string
+    option env="RTT_ROOT"
+    default: "../.."
+
+config $PKGS_DIR
+    string
+    option env="PKGS_ROOT"
+    default "packages"
+
+source "$RTT_DIR/Kconfig"
+source "$PKGS_DIR/Kconfig"
+
+choice
+    prompt "Device type"
+    default HC32F146KA
+    config HC32F146F8
+        bool "HC32F146F8"
+    config HC32F146J8
+        bool "HC32F146J8"
+    config HC32F146KA
+        bool "HC32F146KA"
+    config HC32M140F8
+        bool "HC32M140F8"
+    config HC32M140J8
+        bool "HC32M140J8"
+    config HC32M140KA
+        bool "HC32M140KA"
+endchoice
+
+config RT_USING_UART
+bool "Using uart"
+default y  
+
+config RT_USING_UART5
+bool "Using uart5"
+default y  
+
+config RT_USING_LCD
+bool "Using LCD"
+default y  
+
+config RT_LCD_DEVICE_NAME
+string "LCD Name"
+default "lcd"  
+
+
+
