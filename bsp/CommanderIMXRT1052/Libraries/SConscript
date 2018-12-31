@@ -1,0 +1,122 @@
+import rtconfig
+Import('RTT_ROOT')
+from building import *
+
+# get current directory
+cwd = GetCurrentDir()
+
+# The set of source files associated with this SConscript file.
+#FSLlib/fsl_adc.c
+#FSLlib/fsl_adc_etc.c
+#FSLlib/fsl_aipstz.c
+#FSLlib/fsl_aoi.c
+#FSLlib/fsl_bee.c
+#FSLlib/fsl_cache.c
+#FSLlib/fsl_clock.c
+#FSLlib/fsl_cmp.c
+#FSLlib/fsl_common.c
+#FSLlib/fsl_csi.c
+#FSLlib/fsl_dcdc.c
+#FSLlib/fsl_dcp.c
+#FSLlib/fsl_dmamux.c
+#FSLlib/fsl_edma.c
+#FSLlib/fsl_elcdif.c
+#FSLlib/fsl_enc.c
+#FSLlib/fsl_enet.c
+#FSLlib/fsl_ewm.c
+#FSLlib/fsl_flexcan.c
+#FSLlib/fsl_flexio.c
+#FSLlib/fsl_flexio_i2c_master.c
+#FSLlib/fsl_flexio_i2s.c
+#FSLlib/fsl_flexio_i2s_edma.c
+#FSLlib/fsl_flexio_spi.c
+#FSLlib/fsl_flexio_spi_edma.c
+#FSLlib/fsl_flexio_uart.c
+#FSLlib/fsl_flexio_uart_edma.c
+#FSLlib/fsl_flexram.c
+#FSLlib/fsl_flexspi.c
+#FSLlib/fsl_gpc.c
+#FSLlib/fsl_gpio.c
+#FSLlib/fsl_gpt.c
+#FSLlib/fsl_kpp.c
+#FSLlib/fsl_lpi2c.c
+#FSLlib/fsl_lpi2c_edma.c
+#FSLlib/fsl_lpi2c_freertos.c
+#FSLlib/fsl_lpspi.c
+#FSLlib/fsl_lpspi_edma.c
+#FSLlib/fsl_lpspi_freertos.c
+#FSLlib/fsl_lpuart.c
+#FSLlib/fsl_lpuart_edma.c
+#FSLlib/fsl_lpuart_freertos.c
+#FSLlib/fsl_pit.c
+#FSLlib/fsl_pmu.c
+#FSLlib/fsl_pwm.c
+#FSLlib/fsl_pxp.c
+#FSLlib/fsl_qtmr.c
+#FSLlib/fsl_rtwdog.c
+#FSLlib/fsl_sai.c
+#FSLlib/fsl_sai_edma.c
+#FSLlib/fsl_semc.c
+#FSLlib/fsl_snvs_hp.c
+#FSLlib/fsl_snvs_lp.c
+#FSLlib/fsl_spdif.c
+#FSLlib/fsl_spdif_edma.c
+#FSLlib/fsl_src.c
+#FSLlib/fsl_trng.c
+#FSLlib/fsl_tsc.c
+#FSLlib/fsl_usdhc.c
+#FSLlib/fsl_wdog.c
+#FSLlib/fsl_xbara.c
+#FSLlib/fsl_xbarb.c
+
+
+src = Split("""
+FSLlib/fsl_clock.c
+FSLlib/fsl_common.c
+FSLlib/fsl_gpio.c
+FSLlib/fsl_lpuart.c
+system_MIMXRT1052.c
+
+""")
+
+CCFLAGS = ''
+
+#device options
+if GetDepend(['MIMXRT1052CVJ5B']):
+    HC32_TYPE = 'CPU_MIMXRT1052CVJ5B'
+if GetDepend(['MIMXRT1052CVL5B']):
+    HC32_TYPE = 'CPU_MIMXRT1052CVL5B'
+if GetDepend(['MIMXRT1052DVJ6B']):
+    HC32_TYPE = 'CPU_MIMXRT1052DVJ6B'
+if GetDepend(['MIMXRT1052DVL6B']):
+    HC32_TYPE = 'CPU_MIMXRT1052DVL6B'
+
+
+# starupt scripts for each HC32 kind
+startup_scripts = {}
+startup_scripts['CPU_MIMXRT1052CVJ5B']     = 'startup_MIMXRT1052.s'
+startup_scripts['CPU_MIMXRT1052CVL5B']     = 'startup_MIMXRT1052.s'
+startup_scripts['CPU_MIMXRT1052DVJ6B']     = 'startup_MIMXRT1052.s'
+startup_scripts['CPU_MIMXRT1052DVL6B']     = 'startup_MIMXRT1052.s'
+
+# add for startup script 
+if rtconfig.CROSS_TOOL == 'gcc':
+    src = src + ['CMSIS/Source/' + startup_scripts[HC32_TYPE]]
+elif rtconfig.CROSS_TOOL == 'keil':
+    src = src + ['CMSIS/Source/' + startup_scripts[HC32_TYPE]]
+    CCFLAGS += ' --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186'
+elif rtconfig.CROSS_TOOL == 'iar':
+    src = src + ['CMSIS/Source/' + startup_scripts[HC32_TYPE]]
+
+
+path = [cwd + '/CMSIS/Include', 
+	cwd + '/FSLlib',
+	cwd + '/']
+
+if GetDepend(['RT_USING_RTT_CMSIS']):
+    path += [RTT_ROOT + '/components/CMSIS/Include']
+
+CPPDEFINES = [HC32_TYPE]
+group = DefineGroup('Libraries', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES, CCFLAGS = CCFLAGS)
+
+Return('group')

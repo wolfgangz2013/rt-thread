@@ -1,0 +1,29 @@
+import rtconfig
+Import('RTT_ROOT')
+from building import *
+
+# get current directory
+cwd = GetCurrentDir()
+
+# The set of source files associated with this SConscript file.
+src = Split("""
+io/fsl_io.c
+log/fsl_log.c
+str/fsl_str.c
+fsl_assert.c
+fsl_debug_console.c
+fsl_notifier.c
+fsl_shell.c
+
+""")
+
+CCFLAGS = ''
+
+path = [cwd + '/io', 
+        cwd + '/log', 
+	cwd + '/str', 
+	cwd + '/']
+
+group = DefineGroup('UTILITIES', src, depend = [''], CPPPATH = path, CCFLAGS = CCFLAGS)
+
+Return('group')

@@ -1,0 +1,31 @@
+Import('RTT_ROOT')
+Import('rtconfig')
+from building import *
+
+cwd = GetCurrentDir()
+
+# add the general drivers.
+src = Split("""
+board.c
+""")
+
+if GetDepend(['RT_USING_RGBLCD']):
+    src += ['drv_lcd.c']
+if GetDepend(['RT_USING_PIN']):
+    src += ['drv_gpio.c']
+if GetDepend(['RT_USING_SERIAL']):
+    src += ['drv_usart.c']
+if GetDepend(['RT_USING_SPI']):
+    src += ['drv_spi.c']
+if GetDepend(['RT_USING_USB_DEVICE']):
+    src += ['drv_usb.c']
+if GetDepend(['RT_USING_SDCARD']):
+    src += ['drv_sdcard.c']
+    
+CPPPATH = [cwd]
+if rtconfig.CROSS_TOOL == 'keil':
+    LINKFLAGS = ' --keep=*.o(*_IrqHandler) '
+
+group = DefineGroup('Drivers', src, depend = [''], CPPPATH = CPPPATH, LINKFLAGS = LINKFLAGS)
+
+Return('group')

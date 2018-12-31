@@ -1,0 +1,51 @@
+mainmenu "RT-Thread Configuration"
+config $BSP_DIR
+    string
+    option env="BSP_ROOT"
+    default "."
+config $RTT_DIR
+    string
+    option env="RTT_ROOT"
+    default: "../.."
+config $PKGS_DIR
+    string
+    option env="PKGS_ROOT"
+    default "packages"
+
+source "$RTT_DIR/Kconfig"
+source "$PKGS_DIR/Kconfig"
+
+choice
+    prompt "Device type"
+    default MIMXRT1052CVL5B
+    config MIMXRT1052CVJ5B
+        bool "MIMXRT1052CVJ5B"
+    config MIMXRT1052CVL5B
+        bool "MIMXRT1052CVL5B"
+    config MIMXRT1052DVJ6B
+        bool "MIMXRT1052DVJ6B"
+    config MIMXRT1052DVL6B
+        bool "MIMXRT1052DVL6B"
+endchoice
+
+if RT_USING_SERIAL
+    config RT_USING_UART1
+        bool "Using LPUART1"
+        default y
+endif
+
+config RT_USING_UART
+bool "Using uart"
+default y
+
+config RT_USING_UART1
+bool "Using LPUART1"
+default y
+
+config RT_USING_RGBLCD
+bool "Using RGBLCD"
+default y
+
+config RT_RGBLCD_DEVICE_NAME
+string "RGBLCD Name"
+default "RGBLCD"
