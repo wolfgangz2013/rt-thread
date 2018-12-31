@@ -55,6 +55,7 @@
 #define RT_USING_DEVICE
 #define RT_USING_DEVICE_IPC
 #define RT_USING_SERIAL
+#define RT_SERIAL_USING_DMA
 
 /* SECTION: Console options */
 #define RT_USING_CONSOLE
@@ -100,26 +101,23 @@
 /* Enable DHCP */
 // #define RT_LWIP_DHCP
 
-/* the number of simulatenously active TCP connections*/
-#define RT_LWIP_TCP_PCB_NUM		3
+#define RT_MEMP_NUM_NETCONN     12
+#define RT_LWIP_PBUF_NUM        3
+#define RT_LWIP_RAW_PCB_NUM     2
+#define RT_LWIP_UDP_PCB_NUM     4
+#define RT_LWIP_TCP_PCB_NUM     8
+#define RT_LWIP_TCP_SEG_NUM     40
+#define RT_LWIP_TCP_SND_BUF     4380
+#define RT_LWIP_TCP_WND         4380
 
-/* ip address of target*/
-#define RT_LWIP_IPADDR0	192
-#define RT_LWIP_IPADDR1	168
-#define RT_LWIP_IPADDR2	1
-#define RT_LWIP_IPADDR3	30
+/* ip address of target */
+#define RT_LWIP_IPADDR "192.168.1.30"
 
-/* gateway address of target*/
-#define RT_LWIP_GWADDR0	192
-#define RT_LWIP_GWADDR1	168
-#define RT_LWIP_GWADDR2	1
-#define RT_LWIP_GWADDR3	1
+/* gateway address of target */
+#define RT_LWIP_GWADDR  "192.168.1.1"
 
-/* mask address of target*/
-#define RT_LWIP_MSKADDR0	255
-#define RT_LWIP_MSKADDR1	255
-#define RT_LWIP_MSKADDR2	255
-#define RT_LWIP_MSKADDR3	0
+/* mask address of target */
+#define RT_LWIP_MSKADDR  "255.255.255.0"
 
 /* tcp thread options */
 #define RT_LWIP_TCPTHREAD_PRIORITY		12

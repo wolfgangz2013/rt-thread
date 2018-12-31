@@ -1,17 +1,14 @@
 /*
- * File      : display_controller.h
- * This file is part of RT-Thread RTOS
- * COPYRIGHT (C) 2006-2012, RT-Thread Develop Team
+ * Copyright (c) 2006-2018, RT-Thread Development Team
  *
- * The license and distribution terms for this file may be
- * found in the file LICENSE in this distribution or at
- * http://www.rt-thread.org/license/LICENSE
+ * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
  * Date                Author           Notes
  * 2011-08-08     lgnq            first version for LS1B
  * 2015-07-06    chinesebear   modified for loongson 1c
- */
+  * 2018-01-06    sundm75   modified for smartloong 
+*/
  
 #ifndef __DISPLAY_CONTROLLER_H__
 #define __DISPLAY_CONTROLLER_H__
@@ -19,7 +16,7 @@
 #include <rtthread.h>
 #include "ls1c.h"
 
-#define DC_BASE					0xBC301240  //Display Controller
+#define DC_BASE                 0xBC301240  //Display Controller
 
 /* Frame Buffer registers */
 #define DC_FB_CONFIG			__REG32(DC_BASE + 0x000)
@@ -38,22 +35,21 @@
 #define DC_FB_BUFFER_ADDR1		__REG32(DC_BASE + 0x340)
 
 /* Display Controller driver for 1024x768 16bit */
-#define FB_XSIZE		1024
-#define FB_YSIZE		768
+#define FB_XSIZE		480
+#define FB_YSIZE		272
 #define CONFIG_VIDEO_16BPP
 
-#define APB_CLK 33333333
+#define OSC 24000000 		/* Hz */
 
 #define K1BASE				0xA0000000
 #define KSEG1(addr)			((void *)(K1BASE | (rt_uint32_t)(addr)))
 #define HW_FB_ADDR			KSEG1(_rt_framebuffer)
-#define HW_FB_PIXEL(x, y)	*(volatile rt_uint16_t*)((rt_uint8_t*)HW_FB_ADDR + (y * FB_XSIZE * 2) + x * 2)
 
 struct vga_struct
 {
-	long pclk;
-	int hr,hss,hse,hfl;
-	int vr,vss,vse,vfl;
+    long pclk;
+    int hr,hss,hse,hfl;
+    int vr,vss,vse,vfl;
 };
 
 #endif

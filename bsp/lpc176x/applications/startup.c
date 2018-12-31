@@ -1,11 +1,7 @@
 /*
- * File      : startup.c
- * This file is part of RT-Thread RTOS
- * COPYRIGHT (C) 2009, RT-Thread Development Team
+ * Copyright (c) 2006-2018, RT-Thread Development Team
  *
- * The license and distribution terms for this file may be
- * found in the file LICENSE in this distribution or at
- * http://www.rt-thread.org/license/LICENSE
+ * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
  * Date           Author       Notes
@@ -30,26 +26,6 @@ extern int Image$$RW_IRAM1$$ZI$$Limit;
 #pragma section="HEAP"
 #else
 extern int __bss_end;
-#endif
-
-#ifdef  DEBUG
-/*******************************************************************************
-* Function Name  : assert_failed
-* Description    : Reports the name of the source file and the source line number
-*                  where the assert error has occurred.
-* Input          : - file: pointer to the source file name
-*                  - line: assert error line source number
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void assert_failed(u8* file, u32 line)
-{
-	rt_kprintf("\n\r Wrong parameter value detected on\r\n");
-	rt_kprintf("       file  %s\r\n", file);
-	rt_kprintf("       line  %d\r\n", line);
-
-	while (1) ;
-}
 #endif
 
 /**

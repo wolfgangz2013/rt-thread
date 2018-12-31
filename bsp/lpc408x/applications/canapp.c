@@ -1,11 +1,7 @@
 /*
- * File      : canapp.c
- * This file is part of RT-Thread RTOS
- * COPYRIGHT (C) 2006, RT-Thread Development Team
+ * Copyright (c) 2006-2018, RT-Thread Development Team
  *
- * The license and distribution terms for this file may be
- * found in the file LICENSE in this distribution or at
- * http://www.rt-thread.org/license/LICENSE
+ * SPDX-License-Identifier: Apache-2.0
  *
  * Change Logs:
  * Date           Author       		Notes
@@ -34,15 +30,15 @@ struct rt_can_filter_item filter1item[4] =
 };
 struct rt_can_filter_config filter1 =
 {
-	.count = 4,
-	.actived = 1,
-	.items = filter1item,
+	4,
+	1,
+	filter1item,
 };
 static struct can_app_struct can_data[1] = {
 	{
-		.name = "lpccan1",
-		.filter = &filter1,
-		.eventopt = RT_EVENT_FLAG_OR | RT_EVENT_FLAG_CLEAR,
+		"lpccan1",
+		&filter1,
+		RT_EVENT_FLAG_OR | RT_EVENT_FLAG_CLEAR,
 	},
 };
 static rt_err_t lpccanind(rt_device_t dev, rt_size_t size)

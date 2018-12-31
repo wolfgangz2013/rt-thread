@@ -66,6 +66,7 @@
 #define RT_USING_DEVICE_IPC
 // <bool name="RT_USING_SERIAL" description="Using Serial" default="true" />
 #define RT_USING_SERIAL
+#define RT_SERIAL_USING_DMA
 
 /* SECTION: Console options */
 #define RT_USING_CONSOLE
@@ -101,8 +102,6 @@
 
 /* SECTION: lwip, a lighwight TCP/IP protocol stack */
 /* #define RT_USING_LWIP */
-/* LwIP uses RT-Thread Memory Management */
-#define RT_LWIP_USING_RT_MEM
 /* Enable ICMP protocol*/
 #define RT_LWIP_ICMP
 /* Enable UDP protocol*/

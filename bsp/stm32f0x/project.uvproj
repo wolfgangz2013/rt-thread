@@ -343,9 +343,9 @@
             <uThumb>0</uThumb>
             <VariousControls>
               <MiscControls />
-              <Define>RT_USING_ARM_LIBC, USE_STDPERIPH_DRIVER</Define>
+              <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine />
-              <IncludePath>Libraries/STM32F0xx_StdPeriph_Driver/inc;Libraries/CMSIS/ST/STM32F0xx/Include;Libraries/CMSIS/Include;applications;.;drivers;../../include;../../libcpu/arm/cortex-m0;../../libcpu/arm/common;../../components/libc/armlibc;../../components/drivers/include;../../components/drivers/include;../../components/finsh</IncludePath>
+              <IncludePath>drivers;applications;.;Libraries/STM32F0xx_StdPeriph_Driver/inc;Libraries/CMSIS/ST/STM32F0xx/Include;Libraries/CMSIS/Include;../../include;../../libcpu/arm/cortex-m0;../../libcpu/arm/common;../../components/drivers/include;../../components/drivers/include;../../components/finsh</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -375,13 +375,61 @@
             <ScatterFile />
             <IncludeLibs />
             <IncludeLibsPath />
-            <Misc> --keep *.o(.rti_fn.*)   --keep *.o(FSymTab) --keep *.o(VSymTab) </Misc>
+            <Misc> --keep *.o(.rti_fn.*)   --keep *.o(FSymTab)</Misc>
             <LinkerInputFile />
             <DisabledWarnings />
           </LDads>
         </TargetArmAds>
       </TargetOption>
       <Groups>
+        <Group>
+          <GroupName>Drivers</GroupName>
+          <Files>
+            <File>
+              <FileName>board.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>drivers/board.c</FilePath>
+            </File>
+          </Files>
+          <Files>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>drivers/led.c</FilePath>
+            </File>
+          </Files>
+          <Files>
+            <File>
+              <FileName>stm32f0xx_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>drivers/stm32f0xx_it.c</FilePath>
+            </File>
+          </Files>
+          <Files>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>drivers/usart.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Applications</GroupName>
+          <Files>
+            <File>
+              <FileName>application.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>applications/application.c</FilePath>
+            </File>
+          </Files>
+          <Files>
+            <File>
+              <FileName>startup.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>applications/startup.c</FilePath>
+            </File>
+          </Files>
+        </Group>
         <Group>
           <GroupName>STM32_StdPeriph</GroupName>
           <Files>
@@ -547,54 +595,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Applications</GroupName>
-          <Files>
-            <File>
-              <FileName>application.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>applications/application.c</FilePath>
-            </File>
-          </Files>
-          <Files>
-            <File>
-              <FileName>startup.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>applications/startup.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Drivers</GroupName>
-          <Files>
-            <File>
-              <FileName>board.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>drivers/board.c</FilePath>
-            </File>
-          </Files>
-          <Files>
-            <File>
-              <FileName>led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>drivers/led.c</FilePath>
-            </File>
-          </Files>
-          <Files>
-            <File>
-              <FileName>stm32f0xx_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>drivers/stm32f0xx_it.c</FilePath>
-            </File>
-          </Files>
-          <Files>
-            <File>
-              <FileName>usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>drivers/usart.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>Kernel</GroupName>
           <Files>
             <File>
@@ -668,6 +668,13 @@
           </Files>
           <Files>
             <File>
+              <FileName>signal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../src/signal.c</FilePath>
+            </File>
+          </Files>
+          <Files>
+            <File>
               <FileName>thread.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../src/thread.c</FilePath>
@@ -720,23 +727,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>libc</GroupName>
-          <Files>
-            <File>
-              <FileName>mem_std.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../components/libc/armlibc/mem_std.c</FilePath>
-            </File>
-          </Files>
-          <Files>
-            <File>
-              <FileName>stubs.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../components/libc/armlibc/stubs.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>DeviceDrivers</GroupName>
           <Files>
             <File>
@@ -768,16 +758,16 @@
           </Files>
           <Files>
             <File>
-              <FileName>portal.c</FileName>
+              <FileName>ringbuffer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../components/drivers/src/portal.c</FilePath>
+              <FilePath>../../components/drivers/src/ringbuffer.c</FilePath>
             </File>
           </Files>
           <Files>
             <File>
-              <FileName>ringbuffer.c</FileName>
+              <FileName>waitqueue.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../components/drivers/src/ringbuffer.c</FilePath>
+              <FilePath>../../components/drivers/src/waitqueue.c</FilePath>
             </File>
           </Files>
           <Files>
@@ -813,72 +803,23 @@
           </Files>
           <Files>
             <File>
-              <FileName>finsh_compiler.c</FileName>
+              <FileName>msh.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../components/finsh/finsh_compiler.c</FilePath>
+              <FilePath>../../components/finsh/msh.c</FilePath>
             </File>
           </Files>
           <Files>
             <File>
-              <FileName>finsh_error.c</FileName>
+              <FileName>msh_cmd.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../components/finsh/finsh_error.c</FilePath>
+              <FilePath>../../components/finsh/msh_cmd.c</FilePath>
             </File>
           </Files>
           <Files>
             <File>
-              <FileName>finsh_heap.c</FileName>
+              <FileName>msh_file.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../components/finsh/finsh_heap.c</FilePath>
-            </File>
-          </Files>
-          <Files>
-            <File>
-              <FileName>finsh_init.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../components/finsh/finsh_init.c</FilePath>
-            </File>
-          </Files>
-          <Files>
-            <File>
-              <FileName>finsh_node.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../components/finsh/finsh_node.c</FilePath>
-            </File>
-          </Files>
-          <Files>
-            <File>
-              <FileName>finsh_ops.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../components/finsh/finsh_ops.c</FilePath>
-            </File>
-          </Files>
-          <Files>
-            <File>
-              <FileName>finsh_parser.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../components/finsh/finsh_parser.c</FilePath>
-            </File>
-          </Files>
-          <Files>
-            <File>
-              <FileName>finsh_var.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../components/finsh/finsh_var.c</FilePath>
-            </File>
-          </Files>
-          <Files>
-            <File>
-              <FileName>finsh_vm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../components/finsh/finsh_vm.c</FilePath>
-            </File>
-          </Files>
-          <Files>
-            <File>
-              <FileName>finsh_token.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../components/finsh/finsh_token.c</FilePath>
+              <FilePath>../../components/finsh/msh_file.c</FilePath>
             </File>
           </Files>
         </Group>
